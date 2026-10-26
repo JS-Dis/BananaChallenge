@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banana Challenge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🍌 Banana Challenge</h1>
+        <p>Think fast. Solve the puzzle. Beat the challenge!</p>
+    </header>
+
+    <main class="game-container">
+        <section class="stats">
+            <div class="stat-card">
+                <span>⭐ Score</span>
+                <h2 id="score">0</h2>
+            </div>
+            <div class="stat-card">
+                <span>❤️ Lives</span>
+                <h2 id="lives">3</h2>
+            </div>
+            <div class="stat-card">
+                <span>⏱️ Time</span>
+                <h2 id="timer">30</h2>
+            </div>
+        </section>
+
+        <section class="puzzle-card">
+            <h2 id="level">Level 1 — Easy</h2>
+            <p id="message">Ready to test your brain?</p>
+
+            <div class="puzzle-placeholder" id="puzzle">
+                🍌 ?
+            </div>
+
+            <form id="answer-form">
+                <input
+                    type="number"
+                    id="answer"
+                    placeholder="Enter your answer"
+                    required
+                >
+                <button type="submit">Submit Answer</button>
+            </form>
+
+            <button id="start-btn">Start Game</button>
+            <button id="hint-btn" type="button">Get Hint 💡</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
