@@ -22,6 +22,7 @@ const authLimiter = rateLimit({
     }
 });
 
+
 // Middleware
 app.use(express.json({ limit: "10kb" }));
 
@@ -45,9 +46,9 @@ app.use(
             secure: process.env.NODE_ENV === "production",
             maxAge: 1000 * 60 * 60 * 24
         }
-        }
-    )
+    })
 );
+
 
 // Redirect the website homepage to the login page
 app.get("/", (req, res) => {
