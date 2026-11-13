@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Picola</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body class="login-page">
+
+    <!-- LOGO -->
+    <div class="picola-brand">
+        <img src="../images/picola-logo.png" alt="Picola Logo">
+    </div>
+
+    <!-- LOGIN CARD -->
+    <main class="auth-card">
+
+        <div class="login-icon">🐵</div>
+
+        <span class="welcome-text">WELCOME BACK!</span>
+
+        <h2>Let's Play!</h2>
+
+        <p class="login-description">
+            Login to continue your fun adventure.
+        </p>
+
+        <form id="login-form">
+
+            <div class="input-group">
+                <label for="username">Username</label>
+
+                <div class="input-wrapper">
+                    <span>👤</span>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+
+                <div class="input-wrapper">
+                    <span>🔒</span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+            </div>
+
+            <button type="submit" id="login-btn">
+                Let's Go! 🚀
+            </button>
+
+        </form>
+
+        <p id="status" role="status"></p>
+
+        <div class="auth-link">
+            New to Picola?
+            <a href="/register.html">Create Account</a>
+        </div>
+
+        <div class="login-footer">
+            Made with 💚 for little learners
+        </div>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("login-form");
+        const status = document.getElementById("status");
+        const button = document.getElementById("login-btn");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            status.textContent = "";
+            button.disabled = true;
+            button.textContent = "Please wait...";
+
+            try {
+                const response = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        username: document.getElementById("username").value.trim(),
+        password: document.getElementById("password").value
+    })
+});
+
+const responseText = await response.text();
+
+console.log("Login status:", response.status);
+console.log("Login response:", responseText);
+
+let data;
+
+try {
+    data = JSON.parse(responseText);
+} catch {
+    throw new Error("Server returned HTML instead of JSON. Check the login API route.");
+}
+
+if (!response.ok || !data.success) {
+    throw new Error(data.message || "Login failed.");
+}
+
+window.location.href = "/dashboard.html";
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || "Login failed.");
+                }
+
+                status.textContent =
+                    "Login successful! Opening game...";
+
+                window.location.href = "/dashboard.html";
+
+            } catch (error) {
+
+                status.textContent =
+                    error.message || "Could not connect to the server.";
+
+            } finally {
+                button.disabled = false;
+                button.textContent = "Let's Go! 🚀";
+            }
+        });
+    </script>
+
+</body>
+</html>

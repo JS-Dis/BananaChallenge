@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try Again | PICOLA</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/game-status.css">
+</head>
+<body>
+    <div class="status-container">
+        <div class="status-card">
+            <h1> Oops! You Lost! 😢</h1>
+            <p>Don't give up! Try again and do your best.</p>
+            <button id="retry-btn">Try Again</button>
+            <button onclick="window.location.href='/dashboard.html'">
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("retry-btn").addEventListener("click", () => {
+            sessionStorage.setItem("autoResumeGame", "true");
+            window.location.href = "/index.html";
+        });
+    </script>
+</body>
+</html>

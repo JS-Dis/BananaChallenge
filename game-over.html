@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over | PICOLA</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/game-status.css">
+</head>
+<body>
+    <main class="status-page">
+        <section class="status-card game-over-card">
+            <div class="status-icon">💔</div>
+
+            <p class="status-tag">GAME FINISHED</p>
+
+            <h1>Completely Lost!</h1>
+
+            <p>You have used all your lives.</p>
+            <p>Don't worry! Every champion tries again! 🌟</p>
+
+            <div class="final-score">
+                Your Score: <strong id="final-score">0</strong>
+            </div>
+
+            <button id="dashboard-btn" class="status-btn">
+                🏠 Back to Dashboard
+            </button>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("final-score").textContent =
+            sessionStorage.getItem("retryScore") || "0";
+
+        document.getElementById("dashboard-btn").addEventListener("click", () => {
+            sessionStorage.removeItem("autoResumeGame");
+            sessionStorage.removeItem("retryScore");
+            sessionStorage.removeItem("retryLives");
+            sessionStorage.removeItem("retryLevel");
+            sessionStorage.removeItem("retryStage");
+            sessionStorage.removeItem("retryCompletedQuestions");
+
+            window.location.href = "/dashboard.html";
+        });
+    </script>
+</body>
+</html>

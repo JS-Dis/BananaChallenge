@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | PICOLA</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body class="register-page">    
+<div class="picola-brand">
+    <img src="/images/picola-logo.png" alt="Picola Logo">
+</div>
+
+<main class="auth-card">
+
+    <div class="register-icon">🎮</div>
+
+    <span class="register-welcome">WELCOME TO PICOLA</span>
+
+    <h2>Create Account</h2>
+
+    <p class="register-description">
+        Join the fun and start your adventure!
+    </p>
+
+    <form id="register-form">
+
+        <div class="input-group">
+            <label for="username">👤 Username</label>
+
+            <div class="input-wrapper">
+                <span>👤</span>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Choose a username"
+                    minlength="3"
+                    maxlength="20"
+                    pattern="[A-Za-z0-9_]+"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="password">🔒 Password</label>
+
+            <div class="input-wrapper">
+                <span>🔑</span>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password (8+ characters)"
+                    minlength="8"
+                    maxlength="72"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+        </div>
+
+        <button type="submit" id="register-btn">
+            Create Account 🚀
+        </button>
+
+    </form>
+
+    <p id="status" role="status"></p>
+
+    <div class="auth-link">
+        Already have an account?
+        <a href="login.html">Login here</a>
+    </div>
+
+</main>
+
+
+    <script>
+
+        const form = document.getElementById("register-form");
+        const status = document.getElementById("status");
+        const button = document.getElementById("register-btn");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            status.textContent = "";
+            button.disabled = true;
+
+            try {
+                const response = await fetch("/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: document.getElementById("username").value.trim(),
+                        password: document.getElementById("password").value
+                    })
+                });
+
+                const responseText = await response.text();
+
+                if (!responseText) {
+                    throw new Error("Server returned an empty response.");
+                }
+
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch {
+                    throw new Error("Server returned an invalid response.");
+                }
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || "Registration failed.");
+                }
+
+                status.textContent = "Account created! Opening the game...";
+                window.location.href = "/login.html";
+
+            } catch (error) {
+                status.textContent =
+                    error.message || "Could not connect to the server.";
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Completed | PICOLA</title>
+    <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/level-complete.css">
+
+    
+</head>
+
+<body>
+    
+<body>
+
+    <main class="complete-page">
+
+        <div class="complete-card">
+
+            <div class="complete-label">
+                ✨ PICOLA ACHIEVEMENT ✨
+            </div>
+
+            <div class="trophy">🏆</div>
+
+            <h1 id="complete-title">
+                Level Completed!
+            </h1>
+
+            <p id="complete-message">
+                Amazing work! You completed this level!
+            </p>
+
+            <div class="stars">
+                ⭐ 🌟 ⭐
+            </div>
+
+            <div class="level-progress">
+                <span class="progress-dot active"></span>
+                <span class="progress-dot active"></span>
+                <span class="progress-dot active"></span>
+            </div>
+
+            <button class="next-btn" id="next-level-btn">
+                Next Level 🚀
+            </button>
+
+            <div class="complete-footer">
+                Keep Playing • Keep Learning • Keep Smiling 💚
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Keep your existing JavaScript here -->
+    <script>
+        const completedLevel = sessionStorage.getItem("completedLevel");
+        const nextLevel = sessionStorage.getItem("nextLevel");
+
+        document.getElementById("complete-title").textContent =
+            completedLevel + " Level Completed! 🎉";
+
+        document.getElementById("complete-message").textContent =
+            "Amazing work! You are ready for the next challenge!";
+
+        const nextButton = document.getElementById("next-level-btn");
+
+        if (nextLevel === "Finished") {
+            nextButton.textContent = "View Leaderboard 🏆";
+
+            nextButton.onclick = () => {
+                window.location.href = "/leaderboard.html";
+            };
+
+        } else {
+            nextButton.textContent = "Play " + nextLevel + " Level 🚀";
+
+            nextButton.onclick = () => {
+                sessionStorage.setItem("selectedLevel", nextLevel);
+                sessionStorage.setItem("autoStartGame", "true");
+
+                window.location.href = "/index.html";
+            };
+        }
+    </script>
+
+</body>
+
+</html>

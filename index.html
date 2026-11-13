@@ -4,54 +4,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banana Challenge</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>Picola | Banana Challenge</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/game.css">
 </head>
-<body>
-    <header>
-        <h1>🍌 Banana Challenge</h1>
-        <p>Think fast. Solve the puzzle. Beat the challenge!</p>
-    </header>
 
-    <main class="game-container">
-        <section class="stats">
-            <div class="stat-card">
-                <span>⭐ Score</span>
-                <h2 id="score">0</h2>
-            </div>
-            <div class="stat-card">
-                <span>❤️ Lives</span>
-                <h2 id="lives">3</h2>
-            </div>
-            <div class="stat-card">
-                <span>⏱️ Time</span>
-                <h2 id="timer">30</h2>
-            </div>
-        </section>
+<body class="game-page">
 
-        <section class="puzzle-card">
-            <h2 id="level">Level 1 — Easy</h2>
-            <p id="message">Ready to test your brain?</p>
+    <!-- BRAND -->
+    <div class="picola-brand">
+        <img src="/images/picola-logo.png" alt="Picola Logo">
+    </div>
 
-            <div class="puzzle-placeholder" id="puzzle">
-                🍌 ?
+    <!-- START SCREEN -->
+    <main id="start-screen" class="start-screen">
+
+        <div class="welcome-card">
+
+            <div class="welcome-animal">🐵</div>
+
+            <span class="welcome-label">WELCOME TO PICOLA</span>
+
+            <h1>Banana Challenge!</h1>
+
+            <p>
+                Get ready for a fun word adventure!
+                Find the missing letters and collect stars.
+            </p>
+
+            <div class="start-decoration">
+                🍌 ⭐ 🍎 🐼
             </div>
 
-            <form id="answer-form">
-                <input
-                    type="number"
-                    id="answer"
-                    placeholder="Enter your answer"
-                    required
-                >
-                <button type="submit">Submit Answer</button>
-            </form>
+            <button id="start-btn" class="primary-btn">
+                ▶ Start Playing
+            </button>
 
-            <button id="start-btn">Start Game</button>
-            <button id="hint-btn" type="button">Get Hint 💡</button>
-        </section>
+            <a href="/dashboard.html" class="home-link">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
     </main>
 
-    <script src="script.js"></script>
+    <!-- GAME SCREEN -->
+    <main id="game-screen" style="display:none;">
+
+        <!-- GAME HEADER -->
+        <header class="game-header">
+
+            <div class="game-title">
+                <span>🙈</span>
+                <div>
+                    
+                    <h2>Let's learn and play!</h2>
+                </div>
+            </div>
+
+            <div id="player-info">
+                <span class="player-avatar">👤</span>
+                <span id="username">Player</span>
+                <button id="logout-btn">Logout ↗</button>
+            </div>
+
+        </header>
+
+        <!-- LEVEL INFORMATION -->
+        <section class="level-banner">
+
+            <div>
+                <span class="section-label">YOUR CURRENT CHALLENGE</span>
+                <h2 id="level">Easy Level</h2>
+                <p id="stage">Stage 1 of 3</p>
+            </div>
+
+            <div class="level-decoration">🌟</div>
+
+        </section>
+
+        <!-- GAME MESSAGE -->
+        <p id="message" class="game-message">
+            Ready to test your brain?
+        </p>
+
+        <!-- GAME STATISTICS -->
+        <section class="stats-container">
+
+            <div class="stat-card score-card">
+                <div class="stat-icon">🏆</div>
+                <div>
+                    <p>My Score</p>
+                    <h2 id="score">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card lives-card">
+                <div class="stat-icon">❤️</div>
+                <div>
+                    <p>My Lives</p>
+                    <h2 id="lives">3</h2>
+                </div>
+            </div>
+
+            <div class="stat-card timer-card">
+                <div class="stat-icon">⏱️</div>
+                <div>
+                    <p>Time Left</p>
+                    <h2 id="timer">30</h2>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PUZZLE AREA -->
+        <section class="puzzle-card">
+
+            <div class="puzzle-heading">
+                <span class="puzzle-icon">🧩</span>
+                <h2>Find the Missing Letters!</h2>
+                <p>Select the correct letters to complete the word.</p>
+            </div>
+
+            <div class="puzzle-decoration">🍌</div>
+
+            <!-- WORD -->
+            <div id="puzzle" class="puzzle-area"></div>
+
+            <!-- SELECTED LETTERS -->
+            <div id="selected-letters" class="selected-area"></div>
+
+            <!-- AVAILABLE LETTERS -->
+            <div class="options-heading">
+                <span>Choose Your Letters</span>
+                <span>✨</span>
+            </div>
+
+            <div id="letter-options"></div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="game-actions">
+
+                <button id="submit-btn" class="submit-btn">
+                    ✓ Submit Answer
+                </button>
+
+                <button id="hint-btn" class="hint-btn">
+                    💡 Get Hint
+                </button>
+
+            </div>
+
+            <!-- RESULTS -->
+            <div id="result-section" hidden>
+
+                <div class="result-icon">🏆</div>
+
+                <h2 id="result-title"></h2>
+
+                <p id="result-message"></p>
+
+                <div class="result-actions">
+
+                    <button id="retry-btn" class="submit-btn">
+                        ↻ Retry
+                    </button>
+
+                    <button id="next-btn" class="submit-btn">
+                        Next Level →
+                    </button>
+
+                    <button id="dashboard-btn" class="hint-btn">
+                        🏠 Dashboard
+                    </button>
+                    <button id="leaderboard-btn" class="submit-btn" hidden>
+    🏆 View Leaderboard
+</button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="game-footer">
+            Made with 💛 for little learners | Picola
+        </footer>
+
+    </main>
+
+    <script src="/js/script.js"></script>
+
 </body>
 </html>

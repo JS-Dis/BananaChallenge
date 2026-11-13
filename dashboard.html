@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Picola</title>
+    <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="picola-brand">
+        <img src="/images/picola-logo.png" alt="Picola Logo">
+    </div>
+
+    <main class="dashboard-container">
+
+        <!-- TOP BAR -->
+        <div class="dashboard-top">
+            <div>
+                <h2 id="welcome-message">Welcome! 🧸</h2>
+                <p>Select a difficulty level to start playing.</p>
+            </div>
+
+            <button id="menu-btn" class="menu-btn">☰ Menu</button>
+        </div>
+
+        <!-- MENU DROPDOWN -->
+        <div id="menu-dropdown" class="menu-dropdown" style="display:none;">
+            <button onclick="showSection('account')">👤 Account</button>
+            <button onclick="showSection('sound')">🔊 Sound</button>
+            <button id="signout-btn">🚪 Sign Out</button>
+        </div>
+
+        <!-- MAIN DASHBOARD -->
+        <section id="dashboard-menu">
+
+            <h2 class="level-heading">Choose Your Level</h2>
+
+            <div class="level-container">
+
+                <div class="level-card easy-card">
+                    <div class="level-icon">🌱</div>
+                    <h2>Easy</h2>
+                    <p>Start your challenge with simple missing letters.</p>
+                    <span class="level-tag">Beginner</span>
+                    <button onclick="selectLevel('Easy', this)">Play Easy</button>
+                </div>
+
+                <div class="level-card medium-card">
+                    <div class="level-icon">🔥</div>
+                    <h2>Medium</h2>
+                    <p>Find more missing letters and challenge yourself.</p>
+                    <span class="level-tag">Intermediate</span>
+                    <button onclick="selectLevel('Medium', this)">Play Medium</button>
+                </div>
+
+                <div class="level-card hard-card">
+                    <div class="level-icon">🏆</div>
+                    <h2>Hard</h2>
+                    <p>Take on difficult words and test your skills.</p>
+                    <span class="level-tag">Advanced</span>
+                    <button onclick="selectLevel('Hard', this)">Play Hard</button>
+                </div>
+
+            </div>
+
+            <p id="level-message"></p>
+
+        </section>
+
+        <!-- ACCOUNT SECTION -->
+        <section id="account-section" class="menu-section" style="display:none;">
+
+            <h2>👤 My Account</h2>
+
+            <div class="account-card">
+                <div class="account-icon">👤</div>
+
+                <p>Username</p>
+                <h3 id="account-username">Loading...</h3>
+
+                <p>Current Score</p>
+                <h3 id="account-score">0</h3>
+            </div>
+
+            <button class="back-btn" onclick="showSection('menu')">
+                ← Back to Menu
+            </button>
+
+        </section>
+
+        <!-- SOUND SECTION -->
+        <section id="sound-section" class="menu-section" style="display:none;">
+
+            <h2>🔊 Sound Settings</h2>
+
+            <div class="sound-card">
+                <p>Game Sound</p>
+
+                <button id="sound-toggle">
+                    🔊 Sound ON
+                </button>
+            </div>
+
+            <button class="back-btn" onclick="showSection('menu')">
+                ← Back to Menu
+            </button>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        // USER DETAILS
+        let currentUsername = "";
+        let currentScore = 0;
+
+        // SOUND SETTINGS
+        let soundEnabled =
+            localStorage.getItem("bananaSound") !== "off";
+
+        const menuButton = document.getElementById("menu-btn");
+        const menuDropdown = document.getElementById("menu-dropdown");
+        const soundButton = document.getElementById("sound-toggle");
+
+        // CHECK LOGIN AND GET USER DETAILS
+        async function loadUser() {
+
+            try {
+                const response = await fetch("/api/auth/me");
+
+                if (!response.ok) {
+                    window.location.href = "/login.html";
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (!data.success || !data.user) {
+                    window.location.href = "/login.html";
+                    return;
+                }
+
+                currentUsername = data.user.username;
+                currentScore = data.user.score ?? 0;
+
+                document.getElementById("welcome-message").textContent =
+                    "Welcome, " + currentUsername + "! 👋";
+
+                document.getElementById("account-username").textContent =
+                    currentUsername;
+
+                document.getElementById("account-score").textContent =
+                    currentScore;
+
+            } catch (error) {
+                console.error("User loading error:", error);
+                window.location.href = "/login.html";
+            }
+        }
+
+        loadUser();
+
+        // MENU BUTTON
+        menuButton.addEventListener("click", () => {
+
+            menuDropdown.style.display =
+                menuDropdown.style.display === "none"
+                    ? "flex"
+                    : "none";
+
+        });
+
+        // SHOW MENU SECTIONS
+        function showSection(section) {
+
+            document.getElementById("dashboard-menu").style.display = "none";
+            document.getElementById("account-section").style.display = "none";
+            document.getElementById("sound-section").style.display = "none";
+
+            menuDropdown.style.display = "none";
+
+            if (section === "menu") {
+                document.getElementById("dashboard-menu").style.display = "block";
+            }
+
+            if (section === "account") {
+                document.getElementById("account-section").style.display = "block";
+            }
+
+            if (section === "sound") {
+                document.getElementById("sound-section").style.display = "block";
+            }
+        }
+
+        // SOUND BUTTON
+        function updateSoundButton() {
+
+            soundButton.textContent = soundEnabled
+                ? "🔊 Sound ON"
+                : "🔇 Sound OFF";
+
+        }
+
+        updateSoundButton();
+
+        soundButton.addEventListener("click", () => {
+
+            soundEnabled = !soundEnabled;
+
+            localStorage.setItem(
+                "bananaSound",
+                soundEnabled ? "on" : "off"
+            );
+
+            updateSoundButton();
+
+            if (soundEnabled) {
+                playSound("Easy");
+            }
+
+        });
+
+        // GAME SOUND EFFECT
+        function playSound(level) {
+
+            if (!soundEnabled) return;
+
+            const AudioContext =
+                window.AudioContext || window.webkitAudioContext;
+
+            const audioContext = new AudioContext();
+
+            const sounds = {
+                Easy: [523, 659],
+                Medium: [523, 659, 784],
+                Hard: [392, 523, 784, 1047]
+            };
+
+            const notes = sounds[level];
+
+            notes.forEach((frequency, index) => {
+
+                const oscillator = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+
+                oscillator.type = "sine";
+                oscillator.frequency.value = frequency;
+
+                const startTime =
+                    audioContext.currentTime + index * 0.12;
+
+                gain.gain.setValueAtTime(0.001, startTime);
+                gain.gain.linearRampToValueAtTime(0.15, startTime + 0.03);
+                gain.gain.exponentialRampToValueAtTime(
+                    0.001,
+                    startTime + 0.18
+                );
+
+                oscillator.start(startTime);
+                oscillator.stop(startTime + 0.2);
+
+            });
+
+            setTimeout(() => audioContext.close(), 1000);
+        }
+
+        // SELECT LEVEL
+        function selectLevel(level, button) {
+
+            playSound(level);
+
+            document.querySelectorAll(".level-card").forEach(card => {
+                card.classList.remove("selected");
+            });
+
+            button.closest(".level-card").classList.add("selected");
+
+            document.getElementById("level-message").textContent =
+                level + " level selected! 🍌";
+
+            sessionStorage.setItem("selectedLevel", level);
+
+            setTimeout(() => {
+                window.location.href = "/index.html";
+            }, soundEnabled ? 600 : 200);
+
+        }
+
+        // SIGN OUT
+        document.getElementById("signout-btn").addEventListener("click", async () => {
+
+            try {
+                const response = await fetch("/api/auth/logout", {
+                    method: "POST"
+                });
+
+                if (response.ok) {
+                    sessionStorage.clear();
+                    window.location.href = "/login.html";
+                } else {
+                    alert("Sign out failed. Please try again.");
+                }
+
+            } catch (error) {
+                console.error("Logout error:", error);
+                alert("Unable to sign out. Please try again.");
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

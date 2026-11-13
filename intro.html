@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picola</title>
+    <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/intro.css">
+    
+</head>
+
+<body>
+    <video id="intro-video" autoplay muted playsinline>
+        <source src="picola-intro.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+    <script>
+        const video = document.getElementById("intro-video");
+
+        video.addEventListener("ended", () => {
+            window.location.href = "/login.html";
+        });
+
+        video.addEventListener("error", () => {
+            console.error("Video could not be loaded.");
+        });
+    </script>
+</body>
+</html>

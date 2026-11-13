@@ -1,0 +1,774 @@
+
+/* =====================================
+   PICOLA - MAGICAL JUNGLE DASHBOARD
+===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.dashboard-page {
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    color: #3e2c2c;
+    background:
+        linear-gradient(rgba(9, 43, 26, 0.30), rgba(9, 43, 26, 0.48)),
+        url("../images/picola-background.png") center / cover fixed no-repeat;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* FLOATING DECORATIONS */
+
+body.dashboard-page::before {
+    content: "🍌";
+    position: fixed;
+    top: 18%;
+    left: 5%;
+    font-size: 55px;
+    opacity: 0.65;
+    animation: floatFruit 5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+body.dashboard-page::after {
+    content: "🍎";
+    position: fixed;
+    bottom: 12%;
+    right: 5%;
+    font-size: 55px;
+    opacity: 0.65;
+    animation: floatFruit 6s ease-in-out infinite reverse;
+    pointer-events: none;
+}
+
+@keyframes floatFruit {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-25px) rotate(12deg); }
+}
+
+/* LOGO */
+
+.picola-brand {
+    display: flex;
+    justify-content: center;
+    margin: 5px auto 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.picola-brand img {
+    width: 220px;
+    max-width: 70vw;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* MAIN CONTAINER */
+
+.dashboard-container {
+    width: min(1100px, 100%);
+    margin: 0 auto 30px;
+    padding: 30px;
+    border: 2px solid rgba(255,255,255,0.55);
+    border-radius: 30px;
+    background: rgba(255,255,255,0.20);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 15px 45px rgba(0,0,0,0.22);
+    position: relative;
+    z-index: 1;
+    animation: dashboardAppear 0.8s ease;
+}
+
+@keyframes dashboardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* TOP BAR */
+
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px 25px;
+    border-bottom: 2px dashed rgba(255,255,255,0.65);
+}
+
+.dashboard-top h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: clamp(25px, 4vw, 36px);
+    color: #fff;
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.4);
+}
+
+.dashboard-top p {
+    margin-top: 7px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* MENU BUTTON */
+
+.menu-btn {
+    padding: 13px 23px;
+    border: 2px solid white;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffce54, #ff9f43);
+    color: #57351b;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #c97925;
+    transition: 0.25s ease;
+}
+
+.menu-btn:hover {
+    transform: translateY(-4px) rotate(-2deg);
+    box-shadow: 0 9px 0 #c97925;
+}
+
+/* DROPDOWN */
+
+.menu-dropdown {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 15px 0;
+    animation: dashboardAppear 0.3s ease;
+}
+
+.menu-dropdown button {
+    padding: 11px 18px;
+    border: 1px solid white;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.85);
+    color: #24543b;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.menu-dropdown button:hover {
+    background: #d7ff9b;
+    transform: translateY(-3px);
+}
+
+/* LEVEL HEADING */
+
+.level-heading {
+    text-align: center;
+    margin: 30px 0;
+    font-family: 'Fredoka', sans-serif;
+    font-size: clamp(28px, 4vw, 40px);
+    color: white;
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.45);
+}
+
+/* LEVEL CARDS */
+
+.level-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.level-card {
+    min-height: 330px;
+    padding: 28px 20px;
+    border: 3px solid rgba(255,255,255,0.9);
+    border-radius: 27px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 9px 0 rgba(0,0,0,0.15),
+                0 15px 25px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: cardPop 0.7s ease both;
+}
+
+.level-card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.level-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes cardPop {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.level-card::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.22);
+    top: -80px;
+    right: -60px;
+}
+
+.level-card:hover {
+    transform: translateY(-13px) scale(1.03);
+    box-shadow: 0 15px 0 rgba(0,0,0,0.15),
+                0 25px 35px rgba(0,0,0,0.22);
+}
+
+.easy-card {
+    background: linear-gradient(145deg, #c7f77b, #72d957);
+}
+
+.medium-card {
+    background: linear-gradient(145deg, #ffe17b, #ffad48);
+}
+
+.hard-card {
+    background: linear-gradient(145deg, #ffaaa0, #ff6b70);
+}
+
+.level-icon {
+    width: 90px;
+    height: 90px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.7);
+    font-size: 48px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    animation: iconBounce 3s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+
+.level-card h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 32px;
+    color: #3e3826;
+    margin-bottom: 10px;
+}
+
+.level-card p {
+    min-height: 48px;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.6;
+    color: #493e2d;
+}
+
+.level-tag {
+    margin: 12px 0 18px;
+    padding: 6px 17px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.65);
+    font-size: 12px;
+    font-weight: 900;
+    color: #3d452e;
+}
+
+/* PLAY BUTTON */
+
+.level-card button {
+    width: 100%;
+    max-width: 190px;
+    padding: 13px 15px;
+    border: 2px solid white;
+    border-radius: 15px;
+    background: #fff;
+    color: #285a36;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.15);
+    transition: 0.25s ease;
+}
+
+.level-card button:hover {
+    background: #285a36;
+    color: white;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 rgba(0,0,0,0.18);
+}
+
+.level-card button:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.level-card.selected {
+    outline: 5px solid #fff;
+    outline-offset: 5px;
+}
+
+/* LEVEL MESSAGE */
+
+#level-message {
+    text-align: center;
+    min-height: 30px;
+    margin-top: 28px;
+    color: white;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* ACCOUNT & SOUND SECTIONS */
+
+.menu-section {
+    text-align: center;
+    padding: 35px 15px;
+    animation: dashboardAppear 0.4s ease;
+}
+
+.menu-section h2 {
+    color: white;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 32px;
+    margin-bottom: 25px;
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.4);
+}
+
+.account-card,
+.sound-card {
+    width: min(400px, 100%);
+    margin: 0 auto 25px;
+    padding: 30px;
+    border: 2px solid white;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.account-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.account-card p,
+.sound-card p {
+    margin-top: 15px;
+    color: #55704c;
+    font-weight: 900;
+}
+
+.account-card h3 {
+    margin-top: 5px;
+    color: #285a36;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 25px;
+}
+
+#sound-toggle {
+    margin-top: 18px;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 15px;
+    background: #78d957;
+    color: #24532f;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#sound-toggle:hover {
+    transform: scale(1.06);
+}
+
+.back-btn {
+    padding: 12px 25px;
+    border: 2px solid white;
+    border-radius: 14px;
+    background: #ffca58;
+    color: #533a1f;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    transform: translateY(-3px);
+    background: #ffe28b;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 750px) {
+    body.dashboard-page {
+        padding: 12px;
+    }
+
+    .dashboard-container {
+        padding: 20px 15px;
+    }
+
+    .level-container {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: auto;
+    }
+
+    .level-card {
+        min-height: 300px;
+    }
+
+    .dashboard-top {
+        align-items: flex-start;
+    }
+
+    .menu-btn {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .picola-brand img {
+        width: 175px;
+    }
+
+    .dashboard-top {
+        flex-direction: column;
+    }
+
+    .menu-dropdown {
+        justify-content: center;
+    }
+
+    .dashboard-top h2 {
+        font-size: 27px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* Brighter jungle background */
+body.dashboard-page {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(14, 75, 45, 0.12),
+            rgba(37, 115, 66, 0.20)
+        ),
+        url("../images/picola-background.png") center / cover fixed no-repeat;
+}
+
+/* Colorful glass dashboard */
+.dashboard-container {
+    background: rgba(255, 255, 255, 0.30);
+    border: 3px solid rgba(255,255,255,0.85);
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.18),
+        inset 0 0 30px rgba(255,255,255,0.15);
+}
+
+/* Welcome heading */
+.dashboard-top h2 {
+    background:  #a5f3fc;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.3));
+}
+
+/* Rainbow heading */
+.level-heading {
+    display: table;
+    margin: 30px auto;
+    padding: 10px 30px;
+    border-radius: 50px;
+    background: linear-gradient(
+        90deg,
+        #ff75a0,
+        #ffbd59,
+        #f9ed69,
+        #83e85a,
+        #64d8ff,
+        #bd8cff
+    );
+    color: #fff;
+    -webkit-text-stroke: 0.5px rgba(80,50,30,0.2);
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.25);
+    box-shadow: 0 7px 20px rgba(0,0,0,0.18);
+}
+
+/* More colorful game cards */
+.easy-card {
+    background: linear-gradient(
+        145deg,
+        #d6ff8b,
+        #83ed68,
+        #36d6a0
+    );
+    border-color: #f4ffb5;
+}
+
+.medium-card {
+    background: linear-gradient(
+        145deg,
+        #fff18a,
+        #ffbd59,
+        #ff8c69
+    );
+    border-color: #fff3b0;
+}
+
+.hard-card {
+    background: linear-gradient(
+        145deg,
+        #ffb0cf,
+        #ff7eaa,
+        #c78bff
+    );
+    border-color: #ffe0f0;
+}
+
+/* Colorful card glow */
+.level-card {
+    box-shadow:
+        0 9px 0 rgba(0,0,0,0.12),
+        0 12px 25px rgba(0,0,0,0.18);
+}
+
+.easy-card:hover {
+    box-shadow: 0 0 25px rgba(125,255,110,0.75);
+}
+
+.medium-card:hover {
+    box-shadow: 0 0 25px rgba(255,190,65,0.8);
+}
+
+.hard-card:hover {
+    box-shadow: 0 0 25px rgba(255,115,180,0.8);
+}
+
+/* Bigger animated icons */
+.level-icon {
+    font-size: 52px;
+    border: 4px solid rgba(255,255,255,0.9);
+    background: linear-gradient(145deg, #ffffff, #fff4cc);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+/* Play buttons */
+.level-card button {
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #fff4c5
+    );
+    border: 3px solid #ffffff;
+    color: #245c39;
+    box-shadow: 0 6px 0 rgba(75,100,40,0.25);
+}
+
+.easy-card button:hover {
+    background: linear-gradient(135deg, #168d53, #36c878);
+}
+
+.medium-card button:hover {
+    background: linear-gradient(135deg, #ed8b22, #ffbd45);
+}
+
+.hard-card button:hover {
+    background: linear-gradient(135deg, #d83d91, #a85be8);
+}
+
+/* Menu button */
+.menu-btn {
+    background: linear-gradient(
+        135deg,
+        #ffea70,
+        #ffab57,
+        #ff7c88
+    );
+    border: 3px solid white;
+    box-shadow: 0 6px 0 #c66b42;
+}
+
+/* Account and sound cards */
+.account-card,
+.sound-card {
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.95),
+        rgba(225,255,226,0.88),
+        rgba(255,238,195,0.92)
+    );
+    border: 3px solid white;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.16);
+}
+
+/* Sound toggle */
+#sound-toggle {
+    background: linear-gradient(135deg, #75e6a1, #38c9b1);
+    color: #164e3a;
+    border: 2px solid white;
+    box-shadow: 0 5px 0 #269d77;
+}
+
+/* Back button */
+.back-btn {
+    background: linear-gradient(135deg, #ffe56e, #ffab5c);
+    box-shadow: 0 5px 0 #c87a37;
+}
+
+/* Colorful selected animation */
+.level-card.selected {
+    animation: selectedPulse 0.8s ease;
+}
+
+@keyframes selectedPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05) rotate(1deg); }
+    100% { transform: scale(1); }
+}
+
+/* Hover effects */
+.level-icon:hover {
+    animation: iconSpin 0.7s ease;
+}
+
+@keyframes iconSpin {
+    0% { transform: rotate(0) scale(1); }
+    50% { transform: rotate(15deg) scale(1.15); }
+    100% { transform: rotate(0) scale(1); }
+}
+/* =====================================
+   FIX DASHBOARD SCROLLING
+===================================== */
+
+/* Desktop - prevent page scrolling */
+@media (min-width: 751px) {
+
+    html,
+    body.dashboard-page {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        overflow: hidden;
+    }
+
+    body.dashboard-page {
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .picola-brand {
+        margin: 0 auto 8px;
+        flex-shrink: 0;
+    }
+
+    .picola-brand img {
+        width: 170px;
+    }
+
+    .dashboard-container {
+        margin: 0 auto;
+        padding: 18px 25px;
+        width: min(1100px, 100%);
+    }
+
+    .dashboard-top {
+        padding: 10px 15px 15px;
+    }
+
+    .level-heading {
+        margin: 15px auto 20px;
+    }
+
+    .level-container {
+        gap: 20px;
+    }
+
+    .level-card {
+        min-height: 270px;
+        padding: 20px 15px;
+    }
+
+    .level-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .level-card h2 {
+        font-size: 27px;
+    }
+
+    #level-message {
+        margin-top: 15px;
+    }
+}
+
+/* Mobile - allow scrolling when necessary */
+@media (max-width: 750px) {
+
+    html,
+    body.dashboard-page {
+        min-height: 100%;
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    body.dashboard-page {
+        padding: 12px;
+    }
+}

@@ -1,0 +1,136 @@
+
+/* ======================================
+   PICOLA - COMMON DESIGN
+   ====================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+    --picola-green: #43c94f;
+    --picola-green-dark: #19832c;
+    --picola-yellow: #ffcf48;
+    --picola-orange: #ff942d;
+    --picola-brown: #793c19;
+    --picola-cream: #fff8e6;
+    --picola-text: #4b2b15;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    color: var(--picola-text);
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.picola-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px 15px;
+}
+
+.picola-brand img {
+    width: 210px;
+    max-width: 75%;
+    height: auto;
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 6px 4px #315a2930);
+
+    transition: transform 0.25s ease;
+}
+
+.picola-brand img:hover {
+    transform: scale(1.04) rotate(-2deg);
+}
+
+/* Common buttons */
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+    outline: 3px solid #ffbf36;
+    outline-offset: 4px;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+    .picola-brand {
+        padding-top: 18px;
+    }
+
+    .picola-brand img {
+        width: 160px;
+    }
+}
+
+/* =====================================
+   PICOLA GLOBAL BACKGROUND
+   ===================================== */
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    background: url("../images/picola-background.png") no-repeat center center fixed !important;
+    background-size: cover !important;
+    min-height: 100vh;
+}
+
+/* Mobile background */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-position: center;
+    }
+}
+.navbar {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 130px;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 25px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}

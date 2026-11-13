@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Banana Challenge</title>
+    <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/leaderboard.css">
+    
+</head>
+<body>
+    <main class="leaderboard-page">
+        <div class="leaderboard-container">
+
+            <header class="leaderboard-header">
+                <img src="/images/picola-logo.png"
+                     alt="PICOLA Logo"
+                     class="leaderboard-logo">
+
+                <h1>🏆 Leaderboard</h1>
+                <p>Play, Learn & Become a Champion!</p>
+            </header>
+
+            <section class="leaderboard-card">
+                <div class="card-heading">
+                    <h2>⭐ Top Players</h2>
+                    <span>TOP 10 PLAYERS</span>
+                </div>
+
+                <div class="leaderboard-table-wrapper">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="leaderboard-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <p id="status">Loading leaderboard...</p>
+
+                <div class="leaderboard-actions">
+                    <button class="leaderboard-btn refresh-btn"
+                            onclick="loadLeaderboard()">
+                        ↻ Refresh
+                    </button>
+
+                    <a href="/dashboard.html"
+                       class="leaderboard-btn back-btn">
+                        ← Back to Dashboard
+                    </a>
+                </div>
+            </section>
+
+            <footer class="leaderboard-footer">
+                Keep Playing! Keep Shining! 🌟
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+    const leaderboardBody = document.getElementById("leaderboard-body");
+    const status = document.getElementById("status");
+
+    async function loadLeaderboard() {
+        try {
+            status.textContent = "Loading leaderboard...";
+            leaderboardBody.innerHTML = "";
+
+            const response = await fetch("/api/leaderboard");
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || "Failed to load leaderboard.");
+            }
+
+            if (data.leaderboard.length === 0) {
+                status.textContent = "No players yet. Be the first champion!";
+                return;
+            }
+
+            data.leaderboard.forEach(player => {
+                const row = document.createElement("tr");
+
+                let rankDisplay = player.rank;
+
+                if (player.rank === 1) rankDisplay = "🥇";
+                else if (player.rank === 2) rankDisplay = "🥈";
+                else if (player.rank === 3) rankDisplay = "🥉";
+
+                row.innerHTML = `
+                    <td>
+                        <span class="rank-number">${rankDisplay}</span>
+                    </td>
+                    <td class="player-name">${escapeHTML(player.username)}</td>
+                    <td>
+                        <span class="score-badge">${player.score} ⭐</span>
+                    </td>
+                `;
+
+                leaderboardBody.appendChild(row);
+            });
+
+            status.textContent = "Keep playing to improve your ranking!";
+
+        } catch (error) {
+            console.error(error);
+            status.textContent = "Unable to load leaderboard. Please try again.";
+        }
+    }
+
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
+    }
+
+    loadLeaderboard();
+</script>
+</body>
+</html>
